@@ -1,0 +1,22 @@
+{
+  "name": "beer-from-scratch",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Steampunk / neo-brutalist single-page app for a home beer recipe brewed from scratch",
+  "scripts": {
+    "dev": "bun ./index.html",
+    "typecheck": "tsc --noEmit",
+    "build": "tsc --noEmit && bun build ./index.html --outdir dist --minify --public-path /beer-from-scratch/ --define process.env.NODE_ENV='\"production\"'"
+  },
+  "dependencies": {
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.3.14",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "typescript": "^6.0.3"
+  }
+}

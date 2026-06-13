@@ -13,15 +13,15 @@ import {
 } from "./data/recipe.ts";
 
 /**
- * Мащабира всички числа в текста с даден коефициент.
- * Така диапазони ("7–9 г"), цели и десетични стойности се преизчисляват наведнъж.
+ * Scales every number in the text by the given factor, so ranges
+ * ("7–9 г") plus integer and decimal values are all recomputed at once.
  */
 function scaleText(text: string, factor: number): string {
   if (factor === 1) return text;
   return text.replace(/\d+(?:[.,]\d+)?/g, (raw) => {
     const value = parseFloat(raw.replace(",", "."));
     const scaled = value * factor;
-    // Хубаво закръгляне: цели числа без дроб, иначе до 1 знак.
+    // Nice rounding: whole numbers stay integers, otherwise 1 decimal.
     const rounded =
       Math.abs(scaled - Math.round(scaled)) < 0.05
         ? String(Math.round(scaled))
@@ -63,7 +63,7 @@ export default function App() {
     <div className="page">
       <RivetBar />
 
-      {/* ░░ ХЕДЪР ░░ */}
+      {/* ░░ HEADER ░░ */}
       <header className="hero">
         <div className="hero-gears">
           <Gear teeth={14} size={120} spin="cw" speed={26} className="g1" />
@@ -85,7 +85,7 @@ export default function App() {
       </header>
 
       <main className="stack">
-        {/* ░░ ВЪВЕДЕНИЕ ░░ */}
+        {/* ░░ INTRO ░░ */}
         <section className="panel panel-paper">
           <h2 className="panel-h">
             <span className="panel-num">00</span> Какво ще получите?
@@ -93,7 +93,7 @@ export default function App() {
           <p className="lead">{scaleText(intro, factor)}</p>
         </section>
 
-        {/* ░░ МАЩАБ НА ПАРТИДАТА ░░ */}
+        {/* ░░ BATCH SCALER ░░ */}
         <section className="panel panel-dark scaler">
           <div className="scaler-head">
             <Gear teeth={9} size={44} spin="cw" speed={10} />
@@ -118,7 +118,7 @@ export default function App() {
           </div>
         </section>
 
-        {/* ░░ СЪСТАВКИ ░░ */}
+        {/* ░░ INGREDIENTS ░░ */}
         <section className="panel panel-paper">
           <h2 className="panel-h">
             <span className="panel-num">01</span> 🛒 Съставки
@@ -151,7 +151,7 @@ export default function App() {
           </div>
         </section>
 
-        {/* ░░ ОБОРУДВАНЕ ░░ */}
+        {/* ░░ EQUIPMENT ░░ */}
         <section className="panel panel-paper">
           <h2 className="panel-h">
             <span className="panel-num">02</span> 🔧 Оборудване
@@ -163,7 +163,7 @@ export default function App() {
           </ul>
         </section>
 
-        {/* ░░ СТЪПКА 0: МАЛЦ ░░ */}
+        {/* ░░ STEP 0: MALTING ░░ */}
         <section className="panel panel-rust">
           <h2 className="panel-h panel-h-light">
             <span className="panel-num">⌬</span> Стъпка 0 · Направи си малц
@@ -186,7 +186,7 @@ export default function App() {
           </ol>
         </section>
 
-        {/* ░░ ПРОГРЕС ░░ */}
+        {/* ░░ PROGRESS ░░ */}
         <section className="panel panel-dark progress-panel">
           <h2 className="panel-h panel-h-light">📋 Прогрес на варенето</h2>
           <div className="progress-meta">
@@ -205,7 +205,7 @@ export default function App() {
           )}
         </section>
 
-        {/* ░░ СТЪПКИ ЗА ВАРЕНЕ ░░ */}
+        {/* ░░ BREW STEPS ░░ */}
         <section className="steps">
           <h2 className="section-title">🍺 Стъпки за варене</h2>
           {steps.map((step) => {
@@ -249,7 +249,7 @@ export default function App() {
           })}
         </section>
 
-        {/* ░░ ВАЖНИ БЕЛЕЖКИ ░░ */}
+        {/* ░░ IMPORTANT NOTES ░░ */}
         <section className="panel panel-warn">
           <h2 className="panel-h">📌 Важни бележки</h2>
           <ul className="warn-list">

@@ -5,7 +5,7 @@ interface TimerProps {
   label: string;
 }
 
-/** Прост обратен брояч за стъпките с варене/маш. */
+/** Simple countdown timer for the mash/boil steps. */
 export default function Timer({ minutes, label }: TimerProps) {
   const total = minutes * 60;
   const [remaining, setRemaining] = useState(total);
@@ -47,7 +47,7 @@ export default function Timer({ minutes, label }: TimerProps) {
       osc.start();
       osc.stop(ctx.currentTime + 0.6);
     } catch {
-      /* без звук, ако браузърът блокира */
+      /* no sound if the browser blocks audio */
     }
   }
 

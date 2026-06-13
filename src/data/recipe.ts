@@ -1,12 +1,12 @@
-// Съдържанието на приложението е адаптирано от оригиналната рецепта в
-// /recipe.md (source of truth) — при промяна редактирайте първо там.
-// Количествата се мащабират автоматично чрез scaleText() в App.tsx.
+// The app content is adapted from the original recipe in /recipe.md
+// (source of truth) — edit that file first when changing the recipe.
+// Quantities are scaled automatically via scaleText() in App.tsx.
 
 export interface Ingredient {
   product: string;
   amount: string;
   note: string;
-  /** Дали количеството да се мащабира с обема на партидата. */
+  /** Whether the amount scales with the batch volume. */
   scalable: boolean;
 }
 
@@ -14,9 +14,9 @@ export interface Step {
   id: number;
   badge: string;
   title: string;
-  /** Подточки на стъпката. */
+  /** Sub-points of the step. */
   lines: string[];
-  /** Минути за вграден таймер (по желание). */
+  /** Minutes for an embedded timer (optional). */
   timer?: { minutes: number; label: string };
 }
 

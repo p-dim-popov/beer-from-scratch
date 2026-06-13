@@ -5,13 +5,13 @@ on:
     branches: [main]
   workflow_dispatch:
 
-# Позволяваме deploy към GitHub Pages
+# Permissions required to deploy to GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Само един едновременен deploy; не прекъсваме текущ.
+# Allow only one concurrent deploy; do not cancel an in-progress run.
 concurrency:
   group: pages
   cancel-in-progress: false

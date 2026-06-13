@@ -6,7 +6,7 @@ interface GearProps {
   speed?: number;
 }
 
-/** Процедурно генерирано зъбчато колело (steampunk акцент). */
+/** Procedurally generated gear (steampunk accent). */
 export default function Gear({
   teeth = 12,
   size = 80,
@@ -18,7 +18,7 @@ export default function Gear({
   const cy = 50;
   const outer = 46;
   const inner = 38;
-  const toothW = 0.45; // делът от ъгъла на зъба
+  const toothW = 0.45; // fraction of the angular step taken by a tooth
   const points: string[] = [];
 
   for (let i = 0; i < teeth; i++) {

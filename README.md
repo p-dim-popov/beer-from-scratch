@@ -8,6 +8,10 @@ hops**, styled as a **steampunk / neo-brutalist** broadsheet. Built with
 The recipe itself (in Bulgarian) walks you from optional home-malting through
 mash, sparge, boil, fermentation, priming and conditioning.
 
+> 📜 The original recipe lives in [`recipe.md`](./recipe.md) as the source of
+> truth. The app's content in `src/data/recipe.ts` is adapted from it — edit
+> `recipe.md` first when changing the recipe.
+
 ## ✨ Features
 
 - **Batch scaler** (×1 / ×2 / ×3) — every quantity on the page recomputes

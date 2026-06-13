@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "bun ./index.html",
     "typecheck": "tsc --noEmit",
-    "build": "tsc --noEmit && bun build ./index.html --outdir dist --minify --public-path /beer-from-scratch/ --define process.env.NODE_ENV='\"production\"'"
+    "build": "tsc --noEmit && bun build ./index.html --outdir dist --production --public-path /beer-from-scratch/"
   },
   "dependencies": {
     "react": "^19.2.7",

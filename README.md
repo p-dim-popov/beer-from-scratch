@@ -29,7 +29,7 @@ mash, sparge, boil, fermentation, priming and conditioning.
 | Concern        | Choice                                                       |
 | -------------- | ------------------------------------------------------------ |
 | Runtime / PM   | [Bun](https://bun.sh) (`bun install`, `bun run`)             |
-| UI library     | React 18 + TypeScript                                        |
+| UI library     | React 19 + TypeScript                                        |
 | Bundler        | Bun's built-in bundler (`bun build ./index.html`) — no Vite  |
 | Dev server     | Bun's HTML dev server with hot reload (`bun ./index.html`)   |
 | Type-checking  | `tsc --noEmit` (TypeScript is used for types only)           |
@@ -43,7 +43,7 @@ the assets and rewrites the paths. Two flags matter for the production build:
 - `--public-path /beer-from-scratch/` — rewrites asset URLs for the GitHub Pages
   sub-path (the equivalent of Vite's `base`).
 - `--define process.env.NODE_ENV='"production"'` — without this, React ships its
-  larger development build (~350 KB instead of ~160 KB) and logs dev warnings.
+  larger development build (~420 KB instead of ~210 KB) and logs dev warnings.
 
 ### Local development
 

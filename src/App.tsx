@@ -12,21 +12,35 @@ import {
   steps,
 } from "./data/recipe.ts";
 
+// Mass/volume units that scale with batch size. Longer tokens first so e.g.
+// "кг" wins over "г" and "мл" over "л" during alternation.
+const SCALABLE_UNIT = "кг|мл|литри|литър|литра|г|л";
+
+// Whole numbers stay integers; otherwise keep a single decimal.
+function fmtNumber(n: number): string {
+  return Math.abs(n - Math.round(n)) < 0.05
+    ? String(Math.round(n))
+    : n.toFixed(1);
+}
+
 /**
- * Scales every number in the text by the given factor, so ranges
- * ("7–9 г") plus integer and decimal values are all recomputed at once.
+ * Scales only mass/volume quantities (г, кг, мл, л, литра) by the batch factor.
+ * Temperatures (70°C), durations (60 мин), layer/day counts and other numbers
+ * are left untouched. Ranges sharing a trailing unit ("7–9 г") scale both ends.
  */
 function scaleText(text: string, factor: number): string {
   if (factor === 1) return text;
-  return text.replace(/\d+(?:[.,]\d+)?/g, (raw) => {
-    const value = parseFloat(raw.replace(",", "."));
-    const scaled = value * factor;
-    // Nice rounding: whole numbers stay integers, otherwise 1 decimal.
-    const rounded =
-      Math.abs(scaled - Math.round(scaled)) < 0.05
-        ? String(Math.round(scaled))
-        : scaled.toFixed(1);
-    return rounded;
+  const re = new RegExp(
+    `(?:(\\d+(?:[.,]\\d+)?)\\s*([–-])\\s*)?(\\d+(?:[.,]\\d+)?)(\\s*)(${SCALABLE_UNIT})(?![А-Яа-яA-Za-z°])`,
+    "gu",
+  );
+  return text.replace(re, (_m, lo, dash, hi, space, unit) => {
+    const hiOut = fmtNumber(parseFloat(hi.replace(",", ".")) * factor);
+    if (lo !== undefined) {
+      const loOut = fmtNumber(parseFloat(lo.replace(",", ".")) * factor);
+      return `${loOut}${dash}${hiOut}${space}${unit}`;
+    }
+    return `${hiOut}${space}${unit}`;
   });
 }
 
@@ -234,7 +248,11 @@ export default function App() {
                   </header>
                   <ul className="step-lines">
                     {step.lines.map((line, i) => (
-                      <li key={i}>{scaleText(line, factor)}</li>
+                      <li key={i}>
+                        {step.scalable === false
+                          ? line
+                          : scaleText(line, factor)}
+                      </li>
                     ))}
                   </ul>
                   {step.timer && (
@@ -288,7 +306,12 @@ function Faq({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false);
   return (
     <div className={`faq-item ${open ? "faq-open" : ""}`}>
-      <button className="faq-q" onClick={() => setOpen((o) => !o)}>
+      <button
+        type="button"
+        className="faq-q"
+        aria-expanded={open}
+        onClick={() => setOpen((o) => !o)}
+      >
         <span>{q}</span>
         <span className="faq-icon">{open ? "−" : "+"}</span>
       </button>

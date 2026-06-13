@@ -18,6 +18,11 @@ export interface Step {
   lines: string[];
   /** Minutes for an embedded timer (optional). */
   timer?: { minutes: number; label: string };
+  /**
+   * Whether the mass/volume quantities in this step scale with the batch.
+   * False for priming (Step 5), whose amounts are per-bottle, not per-batch.
+   */
+  scalable?: boolean;
 }
 
 export interface Faq {
@@ -132,6 +137,7 @@ export const steps: Step[] = [
     id: 5,
     badge: "Шприц",
     title: "Шприцоване",
+    scalable: false,
     lines: [
       "⚠ Стерилизирайте бутилките – попарете ги с вряла вода.",
       "Във всяка 1 л бутилка сложете на дъното 6–7 г захар (умерено) или 10 г (силно).",

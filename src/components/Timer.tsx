@@ -46,6 +46,8 @@ export default function Timer({ minutes, label }: TimerProps) {
       gain.connect(ctx.destination);
       osc.start();
       osc.stop(ctx.currentTime + 0.6);
+      // Release the audio context once the beep finishes.
+      osc.onended = () => ctx.close().catch(() => {});
     } catch {
       /* no sound if the browser blocks audio */
     }

@@ -2,7 +2,8 @@
 
 A single-page app for brewing **2 litres of home beer from your own malt and dry
 hops**, styled as a **steampunk / neo-brutalist** broadsheet. Built with
-**React + Bun + Vite** and deployed to **GitHub Pages on every push to `main`**.
+**React + Bun** (Bun's built-in bundler — no Vite/webpack) and deployed to
+**GitHub Pages on every push to `main`**.
 
 The recipe itself (in Bulgarian) walks you from optional home-malting through
 mash, sparge, boil, fermentation, priming and conditioning.
@@ -21,21 +22,32 @@ mash, sparge, boil, fermentation, priming and conditioning.
 
 ## 🛠 Tech guide — React + Bun
 
-| Concern        | Choice                                              |
-| -------------- | --------------------------------------------------- |
-| Runtime / PM   | [Bun](https://bun.sh) (`bun install`, `bun run`)    |
-| UI library     | React 18 + TypeScript                               |
-| Bundler        | Vite 5 (`@vitejs/plugin-react`)                     |
-| Styling        | Hand-written CSS (no framework) in `src/index.css`  |
-| Hosting        | GitHub Pages via GitHub Actions                     |
+| Concern        | Choice                                                       |
+| -------------- | ------------------------------------------------------------ |
+| Runtime / PM   | [Bun](https://bun.sh) (`bun install`, `bun run`)             |
+| UI library     | React 18 + TypeScript                                        |
+| Bundler        | Bun's built-in bundler (`bun build ./index.html`) — no Vite  |
+| Dev server     | Bun's HTML dev server with hot reload (`bun ./index.html`)   |
+| Type-checking  | `tsc --noEmit` (TypeScript is used for types only)           |
+| Styling        | Hand-written CSS (no framework) in `src/index.css`           |
+| Hosting        | GitHub Pages via GitHub Actions                              |
+
+Bun bundles the app straight from `index.html` as the entrypoint: it follows the
+`<script type="module" src="src/main.tsx">` tag, bundles the React/TSX, hashes
+the assets and rewrites the paths. Two flags matter for the production build:
+
+- `--public-path /beer-from-scratch/` — rewrites asset URLs for the GitHub Pages
+  sub-path (the equivalent of Vite's `base`).
+- `--define process.env.NODE_ENV='"production"'` — without this, React ships its
+  larger development build (~350 KB instead of ~160 KB) and logs dev warnings.
 
 ### Local development
 
 ```bash
-bun install      # install dependencies
-bun run dev      # start the dev server (http://localhost:5173)
-bun run build    # type-check + production build into dist/
-bun run preview  # preview the production build locally
+bun install        # install dependencies
+bun run dev        # Bun dev server with hot reload (http://localhost:3000)
+bun run typecheck  # type-check only
+bun run build      # type-check + production build into dist/
 ```
 
 ### Project layout
@@ -62,9 +74,9 @@ every push to `main` (and via manual `workflow_dispatch`).
 **One-time setup:** in the repo, go to **Settings → Pages → Build and
 deployment → Source** and select **GitHub Actions**.
 
-The Vite `base` is set to `/beer-from-scratch/` for production builds (matching
-the repo name) and `/` for local dev — see `vite.config.ts`. The site will be
-served at:
+The production build passes `--public-path /beer-from-scratch/` (matching the
+repo name) so assets resolve under the Pages sub-path; local dev serves from `/`.
+The site will be served at:
 
 ```
 https://<owner>.github.io/beer-from-scratch/

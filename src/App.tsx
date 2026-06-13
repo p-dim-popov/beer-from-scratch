@@ -3,6 +3,7 @@ import Gear from "./components/Gear.tsx";
 import Timer from "./components/Timer.tsx";
 import {
   BASE_LITERS,
+  bottlesLine,
   equipment,
   faqs,
   ingredients,
@@ -174,6 +175,7 @@ export default function App() {
             {equipment.map((e) => (
               <li key={e}>{e}</li>
             ))}
+            <li>{bottlesLine(factor)}</li>
           </ul>
         </section>
 

@@ -68,14 +68,25 @@ export const ingredients: Ingredient[] = [
   },
 ];
 
+// Fixed equipment items. The bottle line is generated separately via
+// bottlesLine() because its count scales with the batch (size stays fixed).
 export const equipment: string[] = [
   "Тенджера 3 л (максимум)",
   "Тензух (марля, сгъната на 3–4 слоя)",
   "Гевгир",
   "Буркан или съд за ферментация (3–4 л)",
   "Ферментационен шлюз (или балон + маркуч в чаша вода)",
-  "Две бутилки от 1 л (или четири от 0.5 л)",
 ];
+
+/**
+ * Bottle line for the equipment list. Base batch (×1) fills two 1 L bottles
+ * or four 0.5 L ones; the counts scale with the batch factor, the sizes don't.
+ */
+export function bottlesLine(factor: number): string {
+  const large = 2 * factor;
+  const small = 4 * factor;
+  return `${large} бутилки от 1 л (или ${small} от 0.5 л)`;
+}
 
 export const maltingSteps: string[] = [
   "Накиснете 2 кг ечемик във вода за 12–24 часа.",

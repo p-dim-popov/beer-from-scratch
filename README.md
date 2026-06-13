@@ -42,8 +42,12 @@ the assets and rewrites the paths. Two flags matter for the production build:
 
 - `--public-path /beer-from-scratch/` — rewrites asset URLs for the GitHub Pages
   sub-path (the equivalent of Vite's `base`).
-- `--define process.env.NODE_ENV='"production"'` — without this, React ships its
-  larger development build (~420 KB instead of ~210 KB) and logs dev warnings.
+- `--production` — sets `NODE_ENV=production`, enables minification, **and
+  switches the JSX transform to the production runtime**. This last part is the
+  important bit: defining `process.env.NODE_ENV` alone is not enough — Bun would
+  still emit `jsxDEV` calls while React's runtime runs in production mode, so the
+  app throws `jsxDEV is not a function` at load and renders a blank page. Always
+  build with `--production`, not a manual `NODE_ENV` define.
 
 ### Local development
 
